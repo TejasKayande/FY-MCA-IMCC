@@ -1,0 +1,80 @@
+
+* TOPIC: Linked Lists
+:PROPERTIES:
+:DATE: <2025-07-03 Thu>
+:SUBJECT: Programming and Data Structures
+:END:
+
+** Understandings
+
+- A Linked List is a linear data structure where each element is a separate
+  object, called a *node*.
+
+- Each node contains:
+  - Data
+  - A reference (pointer) to the next node in the sequence
+
+- Unlike arrays, linked lists do not require contiguous memory.
+
+*** Types of Linked Lists
+
+1. **Singly Linked List**
+   - Each node has a pointer to the *next* node.
+   - Traversal is unidirectional (from head to NULL).
+   - No backward movement possible.
+   - Last node's `next` is NULL.
+
+2. **Doubly Linked List**
+   - Each node has two pointers:
+     - `prev`: Points to the previous node
+     - `next`: Points to the next node
+   - Allows traversal in both directions.
+   - More space needed due to two pointers.
+
+3. **Circular Linked List**
+   - The last node's `next` pointer links back to the head.
+   - Can be singly or doubly linked.
+   - Useful in implementing queues, schedulers.
+
+---
+
+** Details
+
+#+BEGIN_SRC C
+// Singly Linked List Node
+struct Node {
+    int data;
+    struct Node* next;
+};
+#+END_SRC
+
+#+BEGIN_SRC C
+// Doubly Linked List Node
+struct DNode {
+    int data;
+    struct DNode* prev;
+    struct DNode* next;
+};
+#+END_SRC
+
+#+BEGIN_SRC C
+// Circular Singly Linked List Node
+struct CNode {
+    int data;
+    struct CNode* next; // points back to head eventually
+};
+#+END_SRC
+
+---
+
+** Time Complexities
+
+| Operation      | Singly LL | Doubly LL | Circular LL |
+|----------------|-----------|-----------|-------------|
+| Search         | O(n)      | O(n)      | O(n)        |
+| Insert at Head | O(1)      | O(1)      | O(1)        |
+| Insert at Tail | O(n)      | O(1)*     | O(1)*       |
+| Deletion Head  | O(1)      | O(1)      | O(1)        |
+| Deletion Tail  | O(n)      | O(1)      | O(1)*       |
+
+** Questions 

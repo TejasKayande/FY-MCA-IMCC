@@ -1,0 +1,140 @@
+
+* TOPIC: Queue
+:PROPERTIES:
+:DATE: <2025-07-01>
+:SUBJECT: Programming and Data Structure
+:END:
+
+** Understandings
+
+- Queue is a data structure where elemets are stored sequentially
+
+- Queue inserts new elements at the tail and when elements are to be requested
+  from the Queue, the first element entered will be the first to get out
+
+- A Queue maintains a head and a tail pointer where the tail points at the
+  latest element in the queue, and the head points at the element that was the
+  oldest
+
+- This Data Structure follows the FIFO (First In First Out) policy
+  elements get out here <- (head) 1 | 2 | 3 | 4 | 5 | 6 | 7 <- (tail) new elements here
+
+- The operation of inserting an element in the Queue is called as Enqueue.
+
+- The operation of deleting/retriving an element from the Queue is called as
+  Dequeue.
+
+*** There are 5 types of Queues
+
+  1. Input Restricted Queue: 
+     This type of Queue does not follow FIFO as they can take input only from
+     the tail (rear), but can take output from either the head (front) or the
+     tail (rear)
+     
+  2. Output Restricted Queue: 
+     This type of Queue can take input from both the sides, i.e, tail (rear) as
+     well as the head (front). But the output is only taken from the head (front).
+
+  3. Circular Queue:
+     This type Queue is similar to the simple queue but the pointers will loop
+     back once out of the bounds. This is to make efficient use of memory
+     
+  4. Double Ended Queue:
+     In This type of Queue, input and output can be done through either ends.
+
+  5. Priority Queue:
+     Priority Queue is a special type of Queue where the input works similar to
+     normal Queue, but the output is dependent on a certain priority associated
+     with the element. There are 2 types of priority queues
+
+     5.1 Ascending Priority Queue
+     Elements with the least priority will be outputted first irrelavent of
+     their input order
+
+     example: input in order of: 4, 1, 5, 2, 9, 3
+     the output will be: 1, 2, 3, 4, 5, 9
+     
+     5.2 Decending Priority Queue
+     Elements with the highest priority will be outputted first irrelavent of
+     their input order
+
+     example: input in order of: 4, 1, 5, 2, 9, 3
+     the output will be: 9, 5, 4, 3, 2, 1
+
+** Details
+
+- here is basic Queue implementation
+
+#+BEGIN_SRC C
+
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  #define QUEUE_SIZE 100
+
+  struct Queue {
+      int array[QUEUE_SIZE];
+      int head;  // equivalent to front
+      int tail;  // equivalent to rear
+  };
+
+  typedef struct Queue Queue;
+
+  void initQueue(Queue *q) {
+      q->head = 0;
+      q->tail = 0;
+  }
+
+  int isEmpty(Queue *q) {
+      return q->head == q->tail;
+  }
+
+  int isFull(Queue *q) {
+      return q->tail == QUEUE_SIZE;
+  }
+
+  void enqueue(Queue *q, int x) {
+      if (isFull(q)) {
+          printf("Queue Overflow!\n");
+          return;
+      }
+      q->array[q->tail++] = x;
+  }
+
+  int dequeue(Queue *q) {
+      if (isEmpty(q)) {
+          printf("Queue Underflow!\n");
+          return -1;
+      }
+      return q->array[q->head++];
+  }
+
+#+END_SRC
+
+** Questions Solved [0/5]
+*** [ ] Question 1:
+Consider the following statements:
+i.   First-in-first out types of computations are efficiently supported by STACKS.
+ii.  Implementing LISTS on linked lists is more efficient than implementing LISTS
+     on an array for almost all the basic LIST operations.
+iii. Implementing QUEUES on a circular array is more efficient than implementing
+     QUEUES on a linear array with two indices.
+iv.  Last-in-first-out type of computations are efficiently supported by QUEUES.
+
+The Solution:
+Here the correct statements are (ii) and (iii).
+
+*** [ ] Question 2:
+What is the minimum number of stacks of size required to implement a queue of
+size?
+
+A. One  B. Two  C. Three  D. Four
+
+The Answer
+B. Two
+
+We require 2 stacks because 1 stack cannot mimic the FIFO policy of Queue
+
+so we use 2 stacks so that when we need to dequeue, we can just pop elements
+from stack 1 into stack 2, which reverses the order of stack insertion where the
+first entered element now is stored at the top.

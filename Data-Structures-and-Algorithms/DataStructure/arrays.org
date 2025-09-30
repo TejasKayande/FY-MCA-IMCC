@@ -1,0 +1,168 @@
+
+* TOPIC: Arrays
+:PROPERTIES:
+:DATE: <2025-06-30>
+:SUBJECT: Programming and Data-Structure
+:END:
+
+** Understandings
+- Array is an arrangement of data in memory
+- Array is a sequential data structure, that is used to store data in a
+  contiguous form.
+- Array is a homogeneous data structure.
+- Array's can be of singular or multiple dimensional (1D or 2D or even 3D).
+
+** Details
+
+  A = | 1 | 6 | 7 | 8 | 2 | 5 | 6 |
+
+  here A is an Array of integers. The size of A in this case will be 7 NOTE:
+  Size here is based on number of elements and not number of bytes!
+
+- Each element in an array is indentified by its index. Which refers to its
+  relative position from the start of the arrays. In the above example the index
+  of element '2' will be 4.
+
+- The standard way of accessing element in a 1-D array is as follows:
+
+- *A[x] refers to the (x+1)th element in the array* (0 based indexing). So in
+  the above example
+  A[5] will be 5.
+ 
+- In most cases the indexing starts from 0, i.e, the first element will have the
+  index of 0, and +1 for every next element. But in some cases the indexing may
+  start from 1.
+
+      B = | 2 | 5 | 1 | 7 | 6 | 4 | 9 |
+          | 8 | 3 | 8 | 6 | 4 | 0 | 3 |
+          | 0 | 4 | 5 | 7 | 0 | 5 | 0 |
+  
+      here is a 2-Dimensional array of integers. The size of B is 7(cols) * 3(rows)= 21.
+
+- to access the elements in a 2 dimensional array, we index the elements based
+  on their position in row and column. For instance, the element '9' in the
+  above example is in the 0th row and 6th column (0 based indexing), there for
+  to access the element we index as follows
+
+  *B[row][column] => B[0][6]* is 9 in the above example.
+
+
+*** Dynamic Array
+- these type of array are the same as the static array but then can dynamically
+  (at run time) change their storage capacity
+
+*** Row Major and Column Major Layout
+- Row major is the usual way where for every row we first traverse every column in
+  that row and then move on to the next row
+
+- Col major is the way of traversing where for every column we first traverse
+  every row in the column and then move on to the next column
+ 
+
+** Formula
+
+- Length of an array          => n
+- Array Access Time           => O(n)
+- Space Occupied              => n * sizeof(datatype)
+- Find Smallest Element (min) => n - 1
+- Find Largest Element (max)  => n - 1
+- Both min and max       => 2n - 1 comparisons (suboptimal way)
+- Both min and max       => [3n / 2] - 2 comparisons (optimal way)
+  (NOTE: here the [] are used to denote floor down function)
+
+
+** Questions
+*** [x] Question 1:
+Let P be an array containing n integers. Let t be the lowest upper bound on the
+number of comparisons of the array elements, required to find the minimum and
+maximum values in an arbitrary of n elements. Which one of the following choices
+is correct?
+
+A. t > 2n - 2  B. t > 3 [n/2] and t <= 2n - 2   C. t > n and t <= 3[n/2]  D. t > [log2[n]] and t <= n.
+
+Solution:
+to find the max and min. we could just traverse the array first to find the max
+(n-1) and again traverse the array to find the min (n-1). which brings the
+number of comparisons to
+
+(n - 1) + (n - 1) => 2n - 2. Which is not the optimal way to do it.
+
+Example:
+ array[6] = [5, 9, 1, 7, 3, 8]
+
+ where n (number of elements) => 6
+
+The Optimal way would be to pair the elements in a group of 2.
+for the example we can divide the pairs as follows:
+(5,9) (1,7) (3,8)
+
+then we create 2 arrays. One for the min number from each pair,
+and second for the max number from each pair
+
+ pair     max    min
+(5, 9) =>  9      5
+(1, 7) =>  7      1
+(3, 8) =>  8      3
+
+so far the number of comparisons are n/2 (one for each pair). here 6 / 2 => 3
+
+next we find the largest number in the max array. And the smallest number in min array.
+Which will take 2 comparisons for max and 2 comparisons for min.
+
+which brings the total number of comparisons for the above example to
+
+3 (for pairs) + 2 (for max) + 2 (for min) = 7.
+
+if we apply the Minimum-Maximum Comparison Formula, we have:
+
+     *t = [3n/2] - 2 => [(3 * 6) / 2] - 2 => 9 - 2 => 7.*
+
+*** [x] Question 2:
+
+#+BEGIN_SRC cpp
+#include <stdio.h>
+int main () {
+    int a [4] [5] = {{1, 2, 3, 4, 5},
+                     {6, 7, 8, 9, 10},
+                     {11, 12, 13, 14, 15},
+                     {16, 17, 18, 19, 20}};
+
+    printf (“%d\n”, *(*(a+**a+2) +3));
+    return (0);
+}
+#+END_SRC
+
+The output of the program is _______.
+
+The Solution:
+
+evaluate *(*(a + **a + 2) + 3)
+
+**a is a[0][0], which is 1
+=> *(*(a + 1 + 2) + 3)
+=> *(*(a + 3) + 3)
+
+*(a + 3) is a[3]
+=> *(a[3] + 3).
+
+a[3] is {16, 17, 18, 19, 20}
+*(a[3] + 3) is a[3][3]
+=> a[3][3] => 19.
+
+Answer: the output will be 19.
+
+*** [x] Question 3:
+A program P reads in 500 integers in the range [0, 100] representing the cores
+of 500 students. It then print the frequency of each score above 50. What would
+be the best way for P to store the frequencies?
+
+A. array of 50  B. array of 100  C. array of 500  D. Dynamic array of 550.
+
+Solution:
+ we will use an array of size 50 to use it as a hash table. where the frequency
+ for the score of m will be stored at the index of m - 51;
+
+
+** Resources Used
+- [[https://youtu.be/I9828WOCEMg][NPTEL Lecture]]
+- [[https://questions.examside.com/past-years/gate/question/let-p-be-an-array-containing-n-integers-let-t-be-the-lowest-gate-cse-theory-of-computation-finite-automata-and-regular-language-sibkfqru1urhvk1z][Questions]]

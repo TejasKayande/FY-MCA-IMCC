@@ -1,0 +1,471 @@
+
+* TOPIC: Sorting Algortighms
+:PROPERTIES:
+:DATE: <2025-07-04 Fri>
+:SUBJECT: Algortighms
+:END:
+
+** Understandings
+
+- Sorting algorithms are used to sort elements in a given data structure based
+  on some parameter.
+
+- Sorting can be 2 types: 
+  1. Comparison Based:
+     when you compare elements for the purposes of sorting.
+  2. Non-Comparison Based:
+     when you dont need to compare elements to sort them.
+
+- Sorting Algorithms can be in-place (O(1) space complexity and O(logn) for
+  recursive), out-place (where extra memory space is required).
+
+- A sorting algorithm can be Stable or UnStable.
+  1. Stable:
+     A stable sorting algorithm refers to an algorithm which preserves the order
+     of non-distinct elements after the sorting
+     Example:
+     before sort: { A: 3, B: 1, C: 2, D: 1, E: 4 }
+     after sort:  { B: 1, D: 1, C: 2, A: 3, E: 4 }
+
+  2. UnStable:
+     A unstable sorting algorithm referes to an algorithm which does not
+     preserve the order of non-distinct elements after sorting.
+     Example:
+     before sort: { A: 3, B: 1, C: 2, D: 1, E: 4 }
+     after sort:  { D: 1, B: 1, C: 2, A: 3, E: 4 }
+
+ - Inversion of an array:
+   given a pair of indices (i,j) is considered inversion of the array A[a..n] if
+   i < j and A[i] > A[j].
+   formula to calculate number of Inversion pairs: *(n * (n-1)) / 2*
+
+   **number of inversion pairs = number of swaps required to sort the array**
+
+- Time Complexity of a sorting algorithm is based on 2 factors:
+  1. number of elemets comparison
+  2. number of swaps (number of inversion pairs)
+
+** Details
+
+Types of Sorting algorithm
+
+*** Bubble Sort
+
+- Bubble sort works by iterating over the array and comparing 2 neibouring
+  elements and swap them if they are not in proper sorting order, for ever ith
+  element bubble sort will iterate till the nth doing comparisons
+
+- In every i^th pass, place the i^th max(for asending sort) element at its
+  correct position. Which means for the the 1st iteration the biggest element
+  will end up at the n^th position in the array, and for 2nd iteration the
+  second biggest element will be placed at the (n-1)^th position in the array
+
+- Maximum number of passes required to sort: (n-1).
+- Minimum number of passes required to sort: 1.
+
+- Minimum number of swaps required: 0 (best case)
+- Maximum number of swaps required: (n * (n-1)) / 2.
+
+- For default bubble sort the min comparisons required: (n-1).
+- For default bubble sort the max comparisons required: (n * (n-1)) / 2.
+
+- Time Complexity of bubble sort algorithm: Best => O(n) Worst => O(n^2) 
+- Space Complexity: O(1)
+
+- This is a in-place algorithm
+- This is a Stable algorithm.
+  
+**** Example:
+Array : | 50 | 42 | 70 | 19 | 10 |  5 | 43 | 
+Sorting order: Asending
+
+1st iteration:
+     | 50 | 42 | 70 | 19 | 10 |  5 | 43 |
+     | 42 | 50 | 19 | 10 |  5 | 43 | 70 |
+     for the 1st iteration the largest element 70 was place at the nth position
+
+2nd iteration:
+     | 42 | 50 | 19 | 10 |  5 | 43 | 70 |
+     | 42 | 19 | 10 |  5 | 43 | 50 | 70 |
+     for the 2nd iteration the second largest element 50 was place at the (n-1)
+     position
+
+3rd iteration:
+     | 42 | 19 | 10 |  5 | 43 | 50 | 70 |
+     | 19 | 10 |  5 | 42 | 43 | 50 | 70 |
+     for the 3rd iteration the third largest element 43 was place at the (n-2)
+     position
+
+4th iteration: 
+     | 19 | 10 |  5 | 42 | 43 | 50 | 70 |
+     | 10 |  5 | 19 | 42 | 43 | 50 | 70 |
+     for the 4th iteration the fourth largest element 42 was place at the (n-3)
+     position
+
+5th iteration:
+     | 10 |  5 | 19 | 42 | 43 | 50 | 70 |
+     |  5 | 10 | 19 | 42 | 43 | 50 | 70 |
+     for the 5th iteration the fourth largest element 19 was place at the (n-4)
+     position
+
+Now although the array is sorting, the sorting will still continue for 2 more
+iterations to place the second smallest and smallest elements in their position
+(NOTE: in unoptimized bubble sort comparisons will happen for 2 more iterations
+       but no swaps)
+
+**** Implementation
+#+BEGIN_SRC C
+  // unoptimized bubble sort
+  // Minimim and Maximum number of compairsons: n * (n-1)
+  void BubbleSort(int *arr, int n) {
+      for (int i = 0; i < (n - 1); i++) {
+          for (int j = 0; j < (n - 1); j++) {
+              if (arr[j] > arr[j+1]) {
+                  // swap
+                  int temp = arr[j];
+                  arr[j] = arr[j+1];
+                  arr[j+1] = temp;
+              }
+          }
+      }
+  }
+
+  // slightly optimized where we only iterate upto whats already sorted.
+  // Minimim and Maximum number of compairsons: (n * (n-1)) / 2
+  void BubbleSort(int *arr, int n) {
+      for (int i = 0; i < (n - 1); i++) {
+          for (int j = 0; j < (n - i - 1); j++) {
+              if (arr[j] > arr[j+1]) {
+                  // swap
+                  int temp = arr[j];
+                  arr[j] = arr[j+1];
+                  arr[j+1] = temp;
+              }
+          }
+      }
+  }
+
+  // The best version of bubble sort where we ignore the iteration where the array is sorted
+  // Maximum number of compairsons: (n * (n-1)) / 2 
+  // Minimum number of compairsons: (n-1).
+
+  // The way this works is if for a iteration, there is no swap in the j loop,
+  // then then array from current i to n is already sorted so sjut break out of
+  // the loop and end the sorting
+
+  // NOTE: This is the default Bubble Sort.
+  void BubbleSort(int *arr, int n) {
+      for (int i = 0; i < (n - 1); i++) {
+          bool sorted = false;
+          for (int j = 0; j < (n - i - 1); j++) {
+              if (arr[j] > arr[j+1]) {
+                  // swap
+                  int temp = arr[j];
+                  arr[j] = arr[j+1];
+                  arr[j+1] = temp;
+                  sorted = true;
+              }
+          }
+          if (!sorted) break;
+      }
+  }
+#+END_SRC
+     
+*** Selection Sort
+
+- For every i^th pass find the i^th smallest element and swap positions with i.
+  (This is for Ascending), find i^th largest element and swap positions with i
+  for a Desending sorted array.
+
+- Minimum and Maximum number of passes required to sort: (n - 1).
+- Minimum and Maximum number of swaps required: (n - 1).
+- Minimum and Maximum number of comparisons: (n * (n - 1)) / 2.
+  (NOTE: Selection Sort takes the minimum number of comparison compared to any other
+         algorithm)
+
+- Time Complexity: O(n^2). (Best and worst)
+- Space Complexity: O(1)
+
+- This is a in-place Sorting Algorithm.
+- This is a UnStable Sorting Algorithm.
+
+**** Example:
+Array : | 50 | 42 | 70 | 19 | 10 |  5 | 43 | 
+Sording Order: Ascending
+
+1st iteration:
+     | 50 | 42 | 70 | 19 | 10 |  5 | 43 |
+     |  5 | 42 | 70 | 19 | 10 | 50 | 43 |
+
+2nd iteration:
+     | 5 | 42 | 70 | 19 | 10 | 50 | 43 |
+     | 5 | 10 | 70 | 19 | 42 | 50 | 43 |
+
+3rd iteration:
+     | 5 | 10 | 70 | 19 | 42 | 50 | 43 |
+     | 5 | 10 | 19 | 70 | 42 | 50 | 43 |
+
+4th iteration:
+     | 5 | 10 | 19 | 70 | 42 | 50 | 43 |
+     | 5 | 10 | 19 | 42 | 70 | 50 | 43 |
+
+5th iteration:
+     | 5 | 10 | 19 | 42 | 70 | 50 | 43 |
+     | 5 | 10 | 19 | 42 | 43 | 50 | 70 |
+
+**** Implementation:
+#+BEGIN_SRC C
+  void SelectionSort(int *arr, int n) {
+      for (int i = 0; i < (n - 1); i++) {
+          int min_index = i;
+          for (int j = i + 1; j < (n - 1); j++) {
+              if (arr[j] < arr[min_index]) {
+                  min_index = j;
+              }
+          }
+
+          // swap
+          int temp = arr[i];
+          arr[min_index] = arr[i];
+          arr[i] = temp;
+      }
+  }
+#+END_SRC 
+
+*** Insertion Sort
+
+- Insertion Sort creates 2 parts in the given array, where the 1st part is a
+  sorted array and the algorithm is taking one element at the time from the 2nd
+  part and inserting them into the first part respecting the sorted order.
+
+- Minimum and Maximum number of passes required to sort: (n - 1).
+
+- Minumum number of comparisons required to sort: (n - 1).
+- Maximum number of comparisons required to sort: (n * (n-1)) / 2.
+
+- Minimum number of swaps required: 0 (best case)
+- Maximum number of swaps required: (n * (n-1)) / 2.
+
+- Time Complexity is: Best => O(n) Worst => O(n^2).
+- Space Complexity: O(1)
+
+- This is a Stable Algorithm
+- This is a in-place Algorithm
+
+[GATE Point]
+- If the input list is pre-sorted, then it takes time of O(n+d),
+  where n is the number of elements
+  and d is the number of inversions
+
+**** Example
+Array : | 80 | 20 | 40 | 90 | 30 | 60 |
+Sording Order: Ascending
+
+NOTE: The White line indicates the sorted part of the 2 partition.
+
+1st iteration:
+     ------
+     | 80 | 20 | 40 | 90 | 30 | 60 |
+     -----------
+     | 20 | 80 | 40 | 90 | 30 | 60 |
+
+2nd iteration:
+     -----------
+     | 20 | 80 | 40 | 90 | 30 | 60 |
+     ----------------
+     | 20 | 40 | 80 | 90 | 30 | 60 |
+
+4th iteration:
+     ----------------
+     | 20 | 40 | 80 | 90 | 30 | 60 |
+     ---------------------
+     | 20 | 40 | 80 | 90 | 30 | 60 |
+
+5th iteration:
+     ---------------------
+     | 20 | 40 | 80 | 90 | 30 | 60 |
+     --------------------------
+     | 20 | 30 | 40 | 80 | 90 | 60 |
+
+6th iteration:
+     --------------------------
+     | 20 | 30 | 40 | 80 | 90 | 60 |
+     -------------------------------
+     | 20 | 30 | 40 | 60 | 80 | 90 |
+
+**** Implementation:
+#+BEGIN_SRC C
+  void InsertionSort(int *arr, int n) {
+
+      for (int i = 1; i < n; i++) {
+
+          int key = arr[i];
+          j = i - 1;
+
+          while (j >= 0 && arr[j] > key) {
+              arr[j + 1] = a[j];
+              j--;
+          }
+
+          arr[j + 1] = key;
+      }
+  }
+#+END_SRC 
+
+*** Radix Sort
+
+- Radix Sort is a non comparison based sorting algorithm
+
+- Radix Sort uses a Bins of 0-9 integers where for every pass i: the i^th bit
+  from the left of the element is placed in the stack (bin) of the digit (0
+  to 9)
+
+- For example for the 1st iteration, if the first element is 97, it will be
+  placed in the bin of 7 because the 1st element from the right is 7. if it was
+  the 2nd iteration, it would have been placed in the bin of 9 because for the
+  2nd iteration we would consider the 2nd bit form the right.
+
+- Once all the elements are put in the bin, we move from the 0 bin to the 9 bin
+  removing them from bottom to top and placing them in the array, in the order
+  they are removed from the bins.
+
+  NOTE: the element at the bottom of the bin is the element that entered the bin
+        first
+
+- Maximum and Minumum number of passes: number of digits in the largest element.
+
+- Time Complexity: Best => O(n) when all the elements have equal number of digits
+                   Worst => O(d * (n + k))
+  where d => number of digits in the largest element
+        n => number of elements in the array
+        k => base of the element (10 for decimal, 2 for binary).
+
+- Space Complexity: O(n + k)
+  where n => number of elements in the array
+        k => base of the element
+
+  here we have O(n) because for every iteration we require an array of size n to
+  store the sorted array and then copying it into the main array.
+
+  and we have O(k) because for every iteration we require an array, which for
+  each position from 0-k stores the frequency of that digit in the current
+  iteration.
+
+- This is a Non-Comparison based Algorithm.
+- This is a Stable Algorithm.
+- This is a out-place Algorithm.
+
+**** Example
+Array : | 80 | 20 | 40 | 90 | 30 | 60 |
+Sording Order: Ascending
+
+NOTE: The top row of the tables used to represent the bins in the given example
+      denote the bottom of the bins
+
+1st iteration:
+     | 80 | 20 | 40 | 90 | 30 | 60 |
+
+  bins:
+      1st bit from the left
+         |  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+         |----+---+---+---+---+---+---+---+---+---|
+bottom   | 80 |   |   |   |   |   |   |   |   |   |
+         | 20 |   |   |   |   |   |   |   |   |   |
+         | 40 |   |   |   |   |   |   |   |   |   |
+         | 90 |   |   |   |   |   |   |   |   |   |
+         | 30 |   |   |   |   |   |   |   |   |   |
+         | 60 |   |   |   |   |   |   |   |   |   |
+
+     | 80 | 20 | 40 | 90 | 30 | 60 |
+
+2nd iteration: 
+     | 80 | 20 | 40 | 90 | 30 | 60 |
+
+   bins:
+      2nd bit from the left
+         | 0 | 1 |  2 |  3 |  4 | 5 |  6 | 7 |  8 |  9 |
+         |---+---+----+----+----+---+----+---+----+----|
+bottom   |   |   | 20 | 30 | 40 |   | 60 |   | 80 | 90 |
+         |   |   |    |    |    |   |    |   |    |    |
+         |   |   |    |    |    |   |    |   |    |    |
+         |   |   |    |    |    |   |    |   |    |    |
+         |   |   |    |    |    |   |    |   |    |    |
+         |   |   |    |    |    |   |    |   |    |    |
+
+     | 20 | 30 | 40 | 60 | 80 | 90 |
+
+**** Implementation:
+#+BEGIN_SRC C
+  int getMax(int *arr, int n) {
+      int max = arr[0];
+      for (int i = 1; i < n; i++) {
+          if (arr[i] > max) max = arr[i];
+      }
+      return max;
+  }
+
+  void CountingSort(int *arr, int n, int exp) {
+      int output[n];
+      int count[10] = {0};
+
+      // find the frequency for the current digit (exp)
+      // store it at the index of count that denotes the digit.
+      for (int i = 0; i < n; i++)
+          count[(arr[i] / exp) % 10]++;
+
+      
+      // Find cumulative sum of the count array
+      // count[i] = count[i - 1]
+      // this will modify the count array so that for every i in 'count' we
+      // know where the elements with the digit (i == exp) will end up.
+
+      // For Example 
+      // count[0] = 2
+      // count[1] = 2
+      // count[2] = 4
+      // count[3] = 4
+      // count[4] = 5
+      // count[5] = 7
+      // count[6] = 8
+
+      // the above array tells us that elements with exp == 0 will be at the
+      // index 0 and will occupie 2 spaces in the output array, and elements
+      // with exp == 1 will start at index 2, elements with exp 2 will start at
+      // index 4 and so on..
+      for (int i = 1; i < 10; i++)
+          count[i] += count[i - 1];
+
+      // iterate over the array and for every current digit place in the
+      // iteration, find the 'output' array index of that digit in the count
+      // array and put it at that index in the output array. Then we decrement
+      // one from the frequency of that digit in count.
+      for (int i = n - 1; i >= 0; i--) {
+          int digit = (arr[i] / exp) % 10;
+          output[count[digit] - 1] = arr[i];
+          count[digit]--;
+      }
+
+      // copy the output array in to the main input array to continue the
+      // process untill the sort is complete
+      for (int i = 0; i < n; i++)
+          arr[i] = output[i];
+  }
+
+  void RadixSort(int *arr, int n) {
+      int max = getMax(arr, n);
+      for (int exp = 1; max / exp > 0; exp *= 10)
+          CountingSort(arr, n, exp);
+  }
+#+END_SRC
+
+
+** Quick Review
+
+| Algorithm      | Time Best | Time Worst     | Space    | Stable | In-Place | Comparison Based |
+|----------------+-----------+----------------+----------+--------+----------+------------------|
+| Bubble Sort    | O(n)      | O(n^2)         | O(1)     | Yes    | Yes      | Yes              |
+| Selection Sort | O(n^2)    | O(n^2)         | O(1)     | No     | Yes      | Yes              |
+| Insertion Sort | O(n)      | O(n^2)         | O(1)     | Yes    | Yes      | Yes              |
+| Radix Sort     | O(n)      | O(d * (n + k)) | O(n + k) | Yes    | No       | No               |
++----------------+-----------+----------------+----------+--------+----------+------------------+
+

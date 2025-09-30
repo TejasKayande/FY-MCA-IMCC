@@ -1,0 +1,61 @@
+
+* TOPIC: Searching Algorithms
+:PROPERTIES:
+:DATE: <2025-07-02>
+:SUBJECT: Algorithms
+:END:
+
+** Understandings
+
+- Searching Algorithms are used to search for an element in a give data
+  structure.
+
+*** Linear Search
+
+- It checks every element of the list sequentially until the target element is
+  found or the list ends.
+
+- Works on both sorted and unsorted arrays.
+
+- Time Complexity:
+  - Worst Case: O(n)
+  - Best Case: O(1) (if the element is at the beginning)
+
+*** Binary Search
+- Binary Search works on *sorted arrays* only.
+- It repeatedly divides the search interval in half.
+- If the element is equal to the middle element, return index.
+- If the element is smaller, repeat search on left half.
+- If the element is larger, repeat search on right half.
+- Time Complexity:
+  - Worst Case: O(log₂ n)
+  - Best Case: O(1) (element is at mid)
+
+** Details (if needed)
+
+Basic implementation of linear and binary search algorithm.
+
+#+BEGIN_SRC C
+int linearSearch(int *arr, int arr_size, int x) {
+    for (int i = 0; i < arr_size; i++)
+        if (arr[i] == x)
+            return i;
+    return -1;
+}
+#+END_SRC
+#+BEGIN_SRC C
+int binarySearch(int *arr, int arr_size, int x) {
+    int low = 0, high = arr_size - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] == x)
+            return mid;
+        else if (arr[mid] < x)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return -1;
+}
+#+END_SRC
+

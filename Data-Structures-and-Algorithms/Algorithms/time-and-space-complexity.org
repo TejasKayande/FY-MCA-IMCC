@@ -1,0 +1,55 @@
+
+* TOPIC: Time and Space Complexity
+:PROPERTIES:
+:DATE: <2025-07-01>
+:SUBJECT: Algorithms
+:END:
+
+** Understandings
+
+*** Time Complexity
+
+- Time complexity is the computational complexity describing the amount of time
+  required for the execution of an algorithm
+
+- For time complexity the notation uses 3 symbols
+  1. O -> Upper Bound (Worst Case)
+  2. Ω -> Lower Bound (Best Case)
+  3. Θ -> Between Upper and Lower Bound (Average Case)
+
+  Example:
+     - O(f(n)) => upper bound: algorithm *won’t take more than* this time in
+                  worst case.
+     - Ω(f(n)) => lower bound: algorithm *will take at least* this time in best
+                  case.
+     - Θ(f(n)) => tight bound: algorithm *takes exactly* this time
+                  asymptotically.
+
+- Time Complexity quatifies the time as a function of the length of input and
+  not the actual time taken for the algorithm to run (as it can vary from system
+  to system)
+
+- *Order of Growth* is how the time of execution is proportional to the length
+  of input
+
+*** Space Complexity
+
+- Space complexity represents the amount of memory one program uses in order to
+  achieve its execution.
+
+- It uses the same notation as time complexity.
+
+** Examples (Common Complexity Classes)
+- Constant: O(1)
+- Logarithmic: O(log n)
+- Linear: O(n)
+- Linearithmic: O(n log n)
+- Quadratic: O(n²)
+- Exponential: O(2^n)
+- Factorial: O(n!)
+
+** Doubts / To Revisit
+- Big O notation
+
+** Resources Used
+- [[https://www.geeksforgeeks.org/dsa/time-complexity-and-space-complexity/][GeeksforGeeks]]

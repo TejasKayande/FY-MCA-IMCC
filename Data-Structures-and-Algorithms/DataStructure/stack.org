@@ -1,0 +1,179 @@
+
+* TOPIC: Stack
+:PROPERTIES:
+:DATE: <2025-07-01>
+:SUBJECT: Programming and Data Structure
+:END:
+
+** Understandings
+
+- Stack is a data structure where elemets are stored sequentially
+
+- Stack inserts new elements at the top and when elements are to be requested
+  from the Stack, the Last element entered will be the first to get out
+
+- This Data Structure follows the FILO (First In Last Out) policy
+
+- A Stack usually maintains a top pointer to denote where the latest element
+  stored in the Stack is.
+
+- The operation of inserting an element in the Stack is called as PUSH.
+
+- The operation of deleting/retriving an element from the Stack is called as
+  POP.
+
+- A Stack is empty and we request to POP an element, this situation is refered
+  to as an *underflow*
+
+- A Stack is full (capacity of the stack) and we request to PUSH an element,
+  this situation is refered to as an *overflow*
+
+
+** Details
+
+- here is basic Stack implementation
+
+#+BEGIN_SRC C
+
+  #define STACK_SIZE 100
+
+  struct Stack {
+      int array[STACK_SIZE]; // we will use a fixed size array for stack implementation.
+      int top;
+  };
+
+  typedef struct Stack Stack;
+
+  void initStack(Stack **st) {
+      ,*st = (Stack*) malloc(sizeof(Stack));
+      (*st)->top = -1;
+  }
+
+  int pop(Stack *st) {
+
+      if (st->top < 0) {
+          printf("underflow!");
+          return -1;
+      }
+
+      return st->array[st->top--];
+  }
+
+  void push(Stack *st, int x) {
+
+      st->top++;
+
+      // checking overflow
+      if (st->top >= STACK_SIZE) {
+          printf("overflow!");
+          st->top = STACK_SIZE - 1;
+      }
+
+      st->array[st->top] = x;
+  }
+
+#+END_SRC
+
+** Questions Solved [0/5]
+*** [ ] Question 1:
+The following sequence of operations is performed on a stack:
+PUSH(10), PUSH(20), POP, PUSH(10), PUSH(20), POP, POP, POP, PUSH(20), POP
+The sequence of values popped out is
+
+A. 20, 10, 20, 10, 20               B. 20, 20, 10, 10, 20
+C. 10, 20, 20, 10, 20               D. 20, 20, 10, 20, 10
+
+The Solution:
+
+(NOTE: in the following table for stack top is towards left, for POPED the
+sequece starts from the left and goes to right)
+
+| Operation | Stack    | POPED SEQUENCE     |
+| PUSH(10)  | 10       | null               |
+| PUSH(20)  | 20,10    | null               |
+| POP       | 10       | 20                 |
+| PUSH(10)  | 10,10    | 20                 |
+| PUSH(20)  | 20,10,10 | 20                 |
+| POP       | 10, 10   | 20, 20             |
+| POP       | 10       | 20, 20, 10         |
+| POP       | null     | 20, 20, 10, 10     |
+| PUSH(20)  | 20       | 20, 20, 10, 10     |
+| POP       | null     | 20, 20, 10, 10, 20 |
+
+The Answer : B. 20, 20, 10, 10, 20.
+
+*** [ ] Question 2:
+Which of the following permutations can be obtained in the output (in the same
+order) using a stack assuming that the input is the sequence 1, 2, 3, 4, 5 in
+that order?
+
+A. 3, 4, 5, 1, 2
+B. 3, 4, 5, 2, 1
+C. 1, 5, 2, 3, 4
+D. 5, 4, 3, 1, 2
+
+The Solution:
+
+The question is asking if you can push and pop the given elements using the
+rules of stack, and only push the elements the order they are given (for this
+example you cannot push 4 before 3)
+
+One of the given choices is the sequence of poping elements from the stack that
+follows the valid Stack operations.
+
+for the above question option B is the correct one as we can see below
+
+Sequence: 1, 2, 3, 4, 5
+Stack: null
+Pop Sequence: null
+
+PUSH(1)
+Sequence: 2, 3, 4, 5
+Stack: 1
+Pop Sequence: null
+
+PUSH(2)
+Sequence: 3, 4, 5
+Stack: 2, 1
+Pop Sequence: null
+
+PUSH(3)
+Sequence: 4, 5
+Stack: 3, 2, 1
+Pop Sequence: null
+
+POP
+Sequence: 4, 5
+Stack: 2, 1
+Pop Sequence: 3
+
+PUSH(4)
+Sequence: 5
+Stack: 4, 2, 1
+Pop Sequence: 3
+
+POP
+Sequence: 5
+Stack: 2, 1
+Pop Sequence: 3, 4
+
+PUSH(5)
+Sequence: null
+Stack: 5, 2, 1
+Pop Sequence: 3, 4
+
+POP
+Sequence: null
+Stack: 2, 1
+Pop Sequence: 3, 4, 5
+
+POP
+Sequence: null
+Stack: 1
+Pop Sequence: 3, 4, 5, 2
+
+POP
+Sequence: null
+Stack: null
+Pop Sequence: *3, 4, 5, 2, 1*
+
