@@ -1,0 +1,62 @@
+
+* Synopsis
+This application is a web-based application design to help readers organise,
+track their reading journey while providing a very rich social aspect. The
+system provides interface to access info about published books and add it to
+their profiles to track reading progress and maintain a categorised list of
+books they want to read.
+
+This application provides a book review system which encourages users to not just
+write 4-5 lines of reviews, but express their thoughts and share insights about
+the book in detail, and share these reviews with other users.
+
+To encourage social interaction, The application provides the ability to create
+and join Book Clubs. The clubs will allow like minded people to read books
+at the same pace and discuss the plot via the discussion board.
+
+* Modules
+** 1. User Authentication & Profile
+    - [ ] User Registration and Login (with email-password/Google sign-in)
+    - [ ] User Profile Display
+          - [ ] Account Info (username, bio, profile-pic)
+          - [ ] Book 'Shelves' (Shelf is a collection of books)
+                - [ ] Read books shelf
+                - [ ] Currently reading shelf
+                - [ ] Custom Shelves created by the user
+                - [ ] Option to edit entries in a shelf
+    - [ ] Create and update shelf
+          - [ ] User can create a new shelf with custom name and add, update status,
+                remove or move books
+    - [ ] Option to edit profile and manage shelf
+    - [ ] Book recommendation based on users read and currently reading books
+
+** 2. Book Search & Discovery
+    - [ ] Option to search for a book, author or a genre
+    - [ ] Filter books by popularity, number of pages or reviews
+    - [ ] Search results will be displayed as cards of books which will contain
+          the book cover, title, author and a short synopsis
+    - [ ] Book details page:
+          - [ ] Opens when user clicks a book card
+          - [ ] Display extended details about the book (description, ISBN, page
+                count, publication year)
+          - [ ] Display reviews and rating
+          - [ ] Option to add the book to users shelves.
+
+** 3. Notes and Ratings
+    - [ ] Average of all ratings (1-5) will be displayed in the book title page
+    - [ ] Latest ratings will be displayed along with a short note the reviewers have left
+    - [ ] User can write a short note and leave a rating on the books they have read.
+
+** 4. Review System
+    - [ ] User will be able to select a book and write a full book review about
+          a book they have read.
+    - [ ] User will be able to read, like and comment on reviews.
+
+** 5. Book Clubs
+    - [ ] User can create book clubs on specific genres, authors
+    - [ ] User can join clubs
+    - [ ] Clubs:
+          - [ ] A description page with a shelf of already read books,
+                and the currently reading book
+          - [ ] A list of its members, maybe?
+          - [ ] A discussion board
